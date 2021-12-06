@@ -1,0 +1,70 @@
+name: 2 - Deploiement Infra dans Azure
+
+env:
+  location: "westeurope"
+  pathFile: "./Bicep/Exercice_2"
+  bicepFile: "main.bicep"
+  parameterFile: "deploy.parameters.json"
+
+on:
+  workflow_dispatch
+
+jobs:
+  
+  Test_Template:
+    runs-on: ubuntu-latest    
+    steps:
+
+    - name: Recuperation du repo
+      uses: actions/checkout@v2
+
+    - name: Connexion Azure
+      uses: azure/login@v1
+      with: 
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Lint Bicep File
+      run: |
+        az bicep build --file ${{ env.pathFile }}/${{ env.bicepFile }}
+
+    - name: Validate Bicep File
+      run: |
+        az deployment sub validate \
+          --location ${{ env.location }} \
+          --template-file ${{ env.pathFile }}/${{ env.bicepFile }} \
+          --parameters ${{ env.pathFile }}/${{ env.parameterFile }}
+
+    - name: What If Bicep File
+      run: |
+        az deployment sub what-if \
+          --location ${{ env.location }} \
+          --template-file ${{ env.pathFile }}/${{ env.bicepFile }} \
+          --parameters ${{ env.pathFile }}/${{ env.parameterFile }}
+
+    - name: Creation d'une Issue sur un failed !
+      if: ${{ failure() }}
+      uses: JasonEtco/create-an-issue@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Deploy_Template:
+    runs-on: ubuntu-latest
+    needs: Test_Template
+    environment: 
+      name: Test-Infra
+    steps:    
+
+      - name: Recuperation du repo
+        uses: actions/checkout@v2
+
+      - name: Connexion Azure
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploiement Template Bicep
+        run: |
+          az deployment sub create \
+            --location ${{ env.location }} \
+            --template-file ${{ env.pathFile }}/${{ env.bicepFile }} \
+            --parameters ${{ env.pathFile }}/${{ env.parameterFile }}
