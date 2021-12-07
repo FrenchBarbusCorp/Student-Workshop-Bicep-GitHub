@@ -16,5 +16,5 @@ resource acr0 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
   }  
 }
 
-// créer un fichier de paramètre acr.parameters.json avec les valeurs à fournir au déploiement
+// créer un fichier de paramètre acr-student.parameters.json avec les valeurs à fournir au déploiement
 // déployer le code bicep avec la cli Azure
