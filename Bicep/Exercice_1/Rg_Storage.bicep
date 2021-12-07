@@ -1,7 +1,9 @@
 // https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/best-practices
 // https://fr.wikipedia.org/wiki/Camel_case
 
-// https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/modules
+
+// Objectif : déployer un resource group et un compte de stockage en bicep en utilisant la notion de module
+// lecture :  https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/modules
 
 targetScope = 'subscription'
 
@@ -15,8 +17,8 @@ param kindName string
 module rgModule 'Rg.bicep' = {
   name: 'deployRgModule'  
   params: {
-    location: location
-    rgName: rgName 
+    // à compléter 
+    // à compléter
   } 
 }
 
@@ -30,8 +32,9 @@ module storageModule 'Storage.bicep' = {
     kindName: kindName
   }
   dependsOn: [
-    rgModule
+    // à compléter. cf https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/modules#definition-syntax
   ]
 }
 
+// testez votre code 
 // az deployment sub create --location westeurope --template-file ./Bicep/Exercice_1/Rg_Storage.bicep --parameters ./Bicep/Exercice_1/Rg_Storage.parameters.json
