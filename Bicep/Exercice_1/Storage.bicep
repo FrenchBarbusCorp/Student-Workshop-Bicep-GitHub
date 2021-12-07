@@ -29,5 +29,6 @@ resource storageAccount0 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   kind: // à compléter
 }
 
+// editez le fichier Storage.parameters.json pour affecter les valeurs de vos paramètres 
 // testez votre code en le déployant dans le resource group créé précédemment
 // az deployment group create --resource-group RG-Bicep-00 --template-file ./Bicep/Exercice_1/Storage.bicep --parameters ./Bicep/Exercice_1/Storage.parameters.json
