@@ -32,7 +32,7 @@ module storageModule 'Storage.bicep' = {
     kindName: kindName
   }
   dependsOn: [
-    // à compléter. cf https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/modules#definition-syntax
+    // à compléter. cf https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/resource-declaration?tabs=azure-powershell#dependencies
   ]
 }
 
